@@ -1,0 +1,30 @@
+** sch_path: /home/datdt/xchem/xchem/aoi211.sch
+**.subckt aoi211
+XM1 net3 A vdd vdd sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1
+XM2 net3 B vdd vdd sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1
+XM3 OUT A net2 GND sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+XM4 net2 B net1 GND sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+VDD vdd GND 1.2
+VA A GND PULSE(0 1.2 0 1n 1n 9n 20n)
+VB B GND PULSE(0 1.2 0 1n 1n 4n 10n)
+XM5 net4 C net3 vdd sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1
+VC C GND PULSE(0 1.2 0 1n 1n 19n 40n)
+VD D GND PULSE(0 1.2 0 1n 1n 39n 80n)
+XM6 OUT D net4 vdd sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1
+XM9 net1 C GND GND sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+XM10 net1 D GND GND sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+
+
+
+.tran 1n 400n
+.save all
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
