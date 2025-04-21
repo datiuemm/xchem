@@ -18,7 +18,7 @@
 // Additional Comments:
 // This mux is designed for Address and Control Signals  [13:0] ADDR
 //////////////////////////////////////////////////////////////////////////////////
-module  mux2_1(
+module  mux2(
 in_0      , // Mux first input
 in_1      , // Mux Second input
 sel        , // Select input
