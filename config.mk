@@ -1,7 +1,7 @@
-export DESIGN_NAME = gcd
+export DESIGN_NAME = mux2
 export PLATFORM    = ihp-sg13g2
 
-export VERILOG_FILES = $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/gcd.v
+export VERILOG_FILES = $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/mux2.v
 export SDC_FILE      = $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/constraint.sdc
 
 export USE_FILL = 1
