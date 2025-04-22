@@ -1,9 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////
-// Engineer: Amey Kulkarni
-// Design Name: Fast Fourier Transform (16-point) 
-// Module Name: fft_top
-// Project Name: Fast Fourier Transform (16-point)
-/////////////////////////////////////////////////////////////////////////////////
 `include "w_lut.v"
 `include "butterfly.v"
 `include "fft_ctrl_sm.v"
@@ -14,12 +8,12 @@ module fft_top (
    input wire        clk,             
    input wire        reset,     
    input wire        in_push,
-   input wire [15:0] in_real,
-   input wire [15:0] in_imag,
+   input wire signed [15:0] in_real,
+   input wire signed [15:0] in_imag,
    output wire       in_stall,
    output reg        out_push_F,
-   output reg [15:0] out_real_F,
-   output reg [15:0] out_imag_F,
+   output reg signed [15:0] out_real_F,
+   output reg signed [15:0] out_imag_F,
    input wire        out_stall
 );
 
@@ -28,23 +22,23 @@ module fft_top (
     ***************************************************************************/
 
    wire [3:0]  read_addr_1;
-   wire [31:0] read_data_1;
+   wire signed [31:0] read_data_1;
    wire [3:0]  read_addr_2;
-   wire [31:0] read_data_2;
+   wire signed [31:0] read_data_2;
    wire [3:0]  write_addr_1;
-   wire [31:0] write_data_1;
-   wire [31:0] muxed_write_data_1;
+   wire signed [31:0] write_data_1;
+   wire signed [31:0] muxed_write_data_1;
    wire        write_en_1;
    wire [3:0]  write_addr_2;
-   wire [31:0] write_data_2;
+   wire signed [31:0] write_data_2;
    wire        write_en_2;
    wire        write_back;
 
    wire [2:0]  W_addr;
-   wire [31:0] W;
+   wire signed [31:0] W;
 
-   wire [31:0] X;
-   wire [31:0] Y;
+   wire signed [15:0] Xr, Xi, Yr, Yi;
+   wire signed [31:0] X, Y;
 
    wire        out_push;
 
@@ -52,7 +46,10 @@ module fft_top (
     * Continuous Assignments
     ***************************************************************************/
 
-   assign muxed_write_data_1 = (write_back == 1'b1)? X : write_data_1;
+   assign X = {Xr, Xi};
+   assign Y = {Yr, Yi};
+
+   assign muxed_write_data_1 = (write_back == 1'b1) ? X : write_data_1;
 
    /****************************************************************************
     * Instantiate Modules
@@ -96,21 +93,20 @@ module fft_top (
       .addr (W_addr),
       .W    (W)
    );
-   
+
    butterfly butterfly_0 (
       .clk  (clk),
-      .Ar   (read_data_0[31:16]),
-      .Ai   (read_data_0[15:0]),
-      .Br   (read_data_1[31:16]),
-      .Bi   (read_data_1[15:0]),
-      .Wr   (W[30:16]),
-      .Wi   (W[14:0]),
-      .Xr_F (X[30:16]),
-      .Xi_F (X[14:0]),
-      .Yr_F (Y[30:16]),
-      .Yi_F (Y[14:0])
+      .Ar   (read_data_1[31:16]),
+      .Ai   (read_data_1[15:0]),
+      .Br   (read_data_2[31:16]),
+      .Bi   (read_data_2[15:0]),
+      .Wr   (W[31:16]),
+      .Wi   (W[15:0]),
+      .Xr_F (Xr),
+      .Xi_F (Xi),
+      .Yr_F (Yr),
+      .Yi_F (Yi)
    );
-
 
    /****************************************************************************
     * Synchronous Logic
