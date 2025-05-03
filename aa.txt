@@ -1,0 +1,9 @@
+cd $HOME/lab05
+source $HOME/unic-cass/env.sh
+source $HOME/unic-cass/tools/oss-cad-qsuite/20250401/oss-cad-suite/environment
+export OPENROAD_EXE=openroad
+export YOSYS_EXE=yosys
+cd OpenROAD-flow-scripts
+cd flow
+make DESIGN_CONFIG=designs/ihp-sg13g2/fft_top/config.mk
+make DESIGN_CONFIG=designs/ihp-sg13g2/gcd/config.mk gui_final
