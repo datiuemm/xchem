@@ -7,3 +7,9 @@ cd OpenROAD-flow-scripts
 cd flow
 make DESIGN_CONFIG=designs/ihp-sg13g2/fft_top/config.mk
 make DESIGN_CONFIG=designs/ihp-sg13g2/gcd/config.mk gui_final
+
+
+source $HOME/unic-cass/env.sh
+export KLAYOUT_PATH=$PDK_ROOT/$PDK/libs.tech/klayout:$HOME/.klayout
+export KLAYOUT_HOME=$HOME/.klayout
+klayout LDO_COMPARATOR_LATCH.gds -e
