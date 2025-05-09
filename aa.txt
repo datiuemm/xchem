@@ -13,3 +13,23 @@ source $HOME/unic-cass/env.sh
 export KLAYOUT_PATH=$PDK_ROOT/$PDK/libs.tech/klayout:$HOME/.klayout
 export KLAYOUT_HOME=$HOME/.klayout
 klayout LDO_COMPARATOR_LATCH.gds -e
+
+source $HOME/unic-cass/env.sh
+magic -rcfile ~/unic-cass/IHP-Open-PDK/ihp-sg13g2/libs.tech/magic/ihp-sg13g2.magicrc
+
+gds read LDO_COMPARATOR_LATCH.gds
+load LDO_COMPARATOR_LATCH
+cellname rename LDO_COMPARATOR_LATCH LDO_COMPARATOR_LATCH_h
+flatten LDO_COMPARATOR_LATCH
+load LDO_COMPARATOR_LATCH
+select top cell
+extract do local
+extract all
+ext2sim labels on
+ext2sim
+extresist tolerance 10
+extresist
+ext2spice lvs
+ext2spice cthresh 0
+ext2spice extresist on
+ext2spice
